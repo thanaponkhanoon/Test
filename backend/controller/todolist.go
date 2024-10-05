@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/thanaponkhanoon/Test/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 func CreateTodolist(c *gin.Context){
@@ -23,8 +24,12 @@ func CreateTodolist(c *gin.Context){
 
 	TL := entity.Todolist{
 		List: 		todolist.List,
-		Detail: 	todolist.Detail,
 		Status: 	status,
+	}
+
+	if _, err := govalidator.ValidateStruct(todolist); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if err := entity.DB().Create(&TL).Error; err != nil {
@@ -69,6 +74,11 @@ func UpdateTodolist(c *gin.Context){
 
 	if tx := entity.DB().Where("id = ?", todolist.StatusID).First(&status); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(todolist); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

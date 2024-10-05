@@ -1,7 +1,6 @@
 package entity
 
 import (
-	//"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 type Status struct {
@@ -14,8 +13,7 @@ type Status struct {
 type Todolist struct {
 	gorm.Model
 
-	List	string
-	Detail	string
+	List	string `valid:"required~List cannot be blank"`
 	StatusID	*uint
 	Status	Status `gorm:"references:id"`
 }

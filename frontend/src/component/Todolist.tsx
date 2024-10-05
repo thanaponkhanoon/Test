@@ -13,8 +13,9 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
+import AddIcon from '@mui/icons-material/Add';
 import { TodolistInterface } from "../model/ITodolist";
-//import CustomerEdit from "./CustomerEdit";
+import TodolistEdit from "./TodolistEdit";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -59,7 +60,6 @@ function Todolist() {
         setError(false);
     };
     const handleClickDelete = () => {
-        // setSelectCell(selectcell);
         DeleteTodolist(Number(selectcellData?.ID));
 
         setOpenDelete(false);
@@ -87,11 +87,9 @@ function Todolist() {
             .then((response) => response.json())
 
             .then((res) => {
-                //ตรงนี้คือลบในดาต้าเบสสำเร็จแล้ว
                 if (res.data) {
                     setSuccess(true);
                     const remove = todolist.filter(
-                        //กรองเอาข้อมูลที่ไม่ได้ลบ
                         (perv) => perv.ID !== selectcellData?.ID
                     );
                     setTodolist(remove);
@@ -123,35 +121,54 @@ function Todolist() {
     const columns: GridColDef[] = [
         {
             field: "List",
-            headerName: "รายการ",
+            headerName: "Task",
             width: 200,
+            headerAlign: "center",
+            headerClassName: "gray-header",
+            renderCell: (params) => (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "100%",
+
+                    }}
+                >
+                    {params.value}
+                </div>
+            ),
         },
         {
-            field: "Detail",
-            headerName: "รายละเอียด",
-            width: 150
-        },
-        {
-            field: "Cus_id",
-            headerName: "รหัสลูกค้า",
-            width: 225,
+            field: "Status",
+            headerName: "Status",
+            width: 130,
+            headerAlign: "center",
             valueGetter: (value, row) => `${row.Status.Name || ''}`,
         },
         {
             field: "actions",
-            headerName: "การจัดการข้อมูล",
+            headerName: "Action",
             width: 175,
+            headerAlign: "center",
             renderCell: () => (
-                <div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
                     <Button
                         onClick={handleEdit}
                         variant="contained"
                         size="small"
                         startIcon={<EditIcon />}
                         color="success"
-                    >
-                        แก้ไข
-                    </Button>
+                    ></Button>
                     &nbsp;&nbsp;&nbsp;
                     <Button
                         onClick={handleDelete}
@@ -159,9 +176,7 @@ function Todolist() {
                         size="small"
                         startIcon={<DeleteIcon />}
                         color="error"
-                    >
-                        ลบ
-                    </Button>
+                    ></Button>
                 </div>
             ),
         },
@@ -181,13 +196,13 @@ function Todolist() {
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                     <Alert onClose={handleClose} severity="success">
-                        ลบข้อมูลสำเร็จ
+                        ลบ Task สำเร็จ
                     </Alert>
                 </Snackbar>
 
                 <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
-                        ลบข้อมูลไม่สำเร็จ
+                        ลบ Task ไม่สำเร็จ
                     </Alert>
                 </Snackbar>
                 <Dialog
@@ -214,12 +229,12 @@ function Todolist() {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    {/* <DialogActions>
-                        <CustomerEdit
+                    <DialogActions>
+                        <TodolistEdit
                             Cancle={handleEditClose}
                             Data={selectcellData}
                         />
-                    </DialogActions> */}
+                    </DialogActions>
                 </Dialog>
                 <Box
                     display="flex"
@@ -234,23 +249,25 @@ function Todolist() {
                             color="primary"
                             gutterBottom
                         >
-                            บันทึก/แก้ไข ข้อมูลลูกค้า
+                            To-Do List
                         </Typography>
                     </Box>
 
                     <Box>
                         <Button
                             component={RouterLink}
-                            to="/customercreate"
+                            to="/todolistcreate"
                             variant="contained"
                             color="primary"
+                            startIcon={<AddIcon />}
+                            sx={{ textTransform: 'none' }}
                         >
-                            เพิ่มข้อลูกค้า
+                            Add Task
                         </Button>
                     </Box>
                 </Box>
 
-                <div style={{ height: 300, width: "100%", marginTop: "20px" }}>
+                <div style={{ height: 400, width: "100%", marginTop: "20px", }}>
                     <DataGrid
                         rows={todolist}
                         getRowId={(row) => row.ID}
@@ -263,6 +280,15 @@ function Todolist() {
                             },
                         }}
                         pageSizeOptions={[5]}
+                        sx={{
+                            '& .MuiDataGrid-cell': {
+                                color: 'white',
+                            },
+                            '& .MuiDataGrid-columnHeader': {
+                                color: 'white',
+                                backgroundColor: '#a800ab',
+                            },
+                        }}
                         slotProps={{
                             cell: {
                                 onFocus: handleCellFocus,

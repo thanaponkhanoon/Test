@@ -40,7 +40,6 @@ func SetupDatabase() {
 	// Todolist
 	todolist1 := Todolist{
 		List:		"Make A Store Shop",
-		Detail: 	"สร้างคลังสินค้า",
 		Status: 	status1,
 	}
 	db.Model(&Todolist{}).Create(&todolist1)

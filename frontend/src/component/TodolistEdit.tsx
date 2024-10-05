@@ -125,7 +125,7 @@ function TodolistEdit({ Cancle, Data }: Header) {
     };
     useEffect(() => {
         GetAllStatus();
-    }, []);
+    }, );
 
     return (
         <Container maxWidth="md"

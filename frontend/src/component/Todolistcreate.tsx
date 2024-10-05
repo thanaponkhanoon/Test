@@ -113,7 +113,7 @@ function TodolistCreate() {
     };
     useEffect(() => {
         GetAllStatus();
-    }, []);
+    }, );
 
     return (
         <Container maxWidth="md">

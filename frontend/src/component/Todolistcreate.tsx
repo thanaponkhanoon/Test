@@ -15,6 +15,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useEffect, useState } from "react";
 import { TodolistInterface } from "../model/ITodolist";
 import { StatusInterface } from "../model/IStatus";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -25,6 +28,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function TodolistCreate() {
+    const [date, setDate] = useState<Date | null>();
     const [todolist, setTodolist] = useState<
         Partial<TodolistInterface>
     >({});
@@ -67,6 +71,8 @@ function TodolistCreate() {
     function submit() {
         let data = {
             List: (todolist.List) ?? "",
+            Des: (todolist.Des) ?? "",
+            Date: date?.toISOString(),
             StatusID: Number(todolist.StatusID),
         };
         console.log(data);
@@ -87,6 +93,7 @@ function TodolistCreate() {
                 if (res.data) {
                     console.log("บันทึกได้");
                     setSuccess(true);
+                    window.location.reload();
                     setErrorMessage("");
                 } else {
                     console.log("บันทึกไม่ได้");
@@ -113,7 +120,7 @@ function TodolistCreate() {
     };
     useEffect(() => {
         GetAllStatus();
-    }, );
+    },);
 
     return (
         <Container maxWidth="md">
@@ -161,7 +168,7 @@ function TodolistCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="standard">
                             <p>
                                 Task <span style={{ color: 'red' }}>*</span>
@@ -177,9 +184,49 @@ function TodolistCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="standard">
-                            <p>Status</p>
+                            <p>
+                                Description <span style={{ color: 'red' }}>*</span>
+                            </p>
+                            <TextField
+                                id="Des"
+                                variant="standard"
+                                type="string"
+                                size="medium"
+                                value={todolist.Des || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="standard">
+                            <p>
+                                วันที่บันทึกข้อมูล <span style={{ color: 'red' }}>*</span>
+                            </p>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={date}
+                                    onChange={(newValue: Date | null) => {
+                                        setDate(newValue);
+                                    }}
+                                    slots={{ textField: TextField }}
+                                    slotProps={{
+                                        textField: {
+                                            fullWidth: true,
+                                        },
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="standard">
+                            <p>
+                                Status <span style={{ color: 'red' }}>*</span>
+                            </p>
                             <Select
                                 native
                                 value={todolist.StatusID}

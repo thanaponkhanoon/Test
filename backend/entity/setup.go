@@ -1,9 +1,10 @@
 package entity
 
 import (
+	"time"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-
 )
 
 var db *gorm.DB
@@ -39,7 +40,9 @@ func SetupDatabase() {
 
 	// Todolist
 	todolist1 := Todolist{
-		List:		"Make A Store Shop",
+		List:		"Task1",
+		Des:		"Lorem",
+		Date:		time.Now(),
 		Status: 	status1,
 	}
 	db.Model(&Todolist{}).Create(&todolist1)

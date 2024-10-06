@@ -122,6 +122,27 @@ function Todolist() {
         {
             field: "List",
             headerName: "Task",
+            width: 100,
+            headerAlign: "center",
+            headerClassName: "gray-header",
+            renderCell: (params) => (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "100%",
+
+                    }}
+                >
+                    {params.value}
+                </div>
+            ),
+        },
+        {
+            field: "Des",
+            headerName: "Description",
             width: 200,
             headerAlign: "center",
             headerClassName: "gray-header",
@@ -139,6 +160,22 @@ function Todolist() {
                     {params.value}
                 </div>
             ),
+        },
+        {
+            field: "Date",
+            headerName: "Due",
+            width: 95,
+            headerAlign: "center",
+            valueGetter: (value, row) => {
+                const date = new Date(row.Date);
+                if (!isNaN(date.getTime())) {
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear() + 543;
+                    return `${day}/${month}/${year}`;
+                }
+                return '';
+            },
         },
         {
             field: "Status",
@@ -188,7 +225,7 @@ function Todolist() {
 
     return (
         <div>
-            <Container maxWidth="sm">
+            <Container maxWidth="md">
                 <Snackbar
                     open={success}
                     autoHideDuration={6000}

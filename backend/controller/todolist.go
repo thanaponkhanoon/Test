@@ -24,6 +24,8 @@ func CreateTodolist(c *gin.Context){
 
 	TL := entity.Todolist{
 		List: 		todolist.List,
+		Des:		todolist.Des,
+		Date:		todolist.Date.Local(),
 		Status: 	status,
 	}
 
@@ -81,6 +83,8 @@ func UpdateTodolist(c *gin.Context){
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	todolist.Date = todolist.Date.Local()
 
 	if err := entity.DB().Save(&todolist).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

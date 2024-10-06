@@ -14,6 +14,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useEffect, useState } from "react";
 import { TodolistInterface } from "../model/ITodolist";
 import { StatusInterface } from "../model/IStatus";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -29,11 +32,14 @@ interface Header {
 }
 
 function TodolistEdit({ Cancle, Data }: Header) {
+    const [date, setDate] = useState<Date | null>();
     const [todolist, setTodolist] = useState<
         Partial<TodolistInterface>
     >({
         ID: Data?.ID,
         List: Data?.List,
+        Des: Data?.Des,
+        Date: Data?.Date,
         StatusID: Data?.StatusID,
     });
     const [status, setStatus] = useState<StatusInterface[]>([]);
@@ -74,6 +80,8 @@ function TodolistEdit({ Cancle, Data }: Header) {
         let data = {
             ID: Number(todolist.ID),
             List: (todolist.List) ?? "",
+            Des: (todolist.Des) ?? "",
+            Date: date?.toISOString(),
             StatusID: Number(todolist.StatusID),
 
         };
@@ -125,7 +133,7 @@ function TodolistEdit({ Cancle, Data }: Header) {
     };
     useEffect(() => {
         GetAllStatus();
-    }, );
+    },);
 
     return (
         <Container maxWidth="md"
@@ -174,7 +182,7 @@ function TodolistEdit({ Cancle, Data }: Header) {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="standard">
                             <p>
                                 Task <span style={{ color: 'red' }}>*</span>
@@ -190,9 +198,49 @@ function TodolistEdit({ Cancle, Data }: Header) {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="standard">
-                            <p>Status</p>
+                            <p>
+                                Description <span style={{ color: 'red' }}>*</span>
+                            </p>
+                            <TextField
+                                id="Des"
+                                variant="standard"
+                                type="string"
+                                size="medium"
+                                value={todolist.Des || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="standard">
+                            <p>
+                                วันที่บันทึกข้อมูล <span style={{ color: 'red' }}>*</span>
+                            </p>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={date}
+                                    onChange={(newValue: Date | null) => {
+                                        setDate(newValue);
+                                    }}
+                                    slots={{ textField: TextField }}
+                                    slotProps={{
+                                        textField: {
+                                            fullWidth: true,
+                                        },
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="standard">
+                            <p>
+                                Status <span style={{ color: 'red' }}>*</span>
+                            </p>
                             <Select
                                 native
                                 value={todolist.StatusID}

@@ -12,13 +12,6 @@ func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
-	
-	//Status
-	r.GET("/status", controller.GetAllStatus)
-	r.GET("/status/:id", controller.GetStatusByID)
-	r.POST("/status", controller.CreateStatus)
-	r.PATCH("/status", controller.UpdateStatus)
-	r.DELETE("/status/:id", controller.DeleteStatusByID)
 
 	//Todolist
 	r.GET("/todolist", controller.GetAllTodolist)

@@ -35,6 +35,8 @@ function Todolist() {
     const [opendelete, setOpenDelete] = useState(false);
     const [openedit, setOpenEdit] = useState(false);
 
+    const [selectedRows, setSelectedRows] = useState<number[]>([]);
+
     const handleCellFocus = useCallback(
         (event: React.FocusEvent<HTMLDivElement>) => {
             const row = event.currentTarget.parentElement;
@@ -45,6 +47,11 @@ function Todolist() {
         },
         [todolist]
     );
+
+    const handleRowSelection = (ids: number[]) => {
+        setSelectedRows(ids);
+    };
+
     const handleClose = (
         event?: React.SyntheticEvent | Event,
 
@@ -133,7 +140,7 @@ function Todolist() {
                         alignItems: "center",
                         width: "100%",
                         height: "100%",
-
+                        textDecoration: selectedRows.includes(params.id as number) ? 'line-through' : 'none',
                     }}
                 >
                     {params.value}
@@ -176,13 +183,6 @@ function Todolist() {
                 }
                 return '';
             },
-        },
-        {
-            field: "Status",
-            headerName: "Status",
-            width: 130,
-            headerAlign: "center",
-            valueGetter: (value, row) => `${row.Status.Name || ''}`,
         },
         {
             field: "actions",
@@ -331,7 +331,11 @@ function Todolist() {
                                 onFocus: handleCellFocus,
                             },
                         }}
-
+                        checkboxSelection
+                        onRowSelectionModelChange={(newSelection: any) => handleRowSelection(newSelection)}
+                        onCellClick={(params) => {
+                            setSelectcellData(params.row);
+                        }}
                     />
                 </div>
             </Container>

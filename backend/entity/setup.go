@@ -22,28 +22,15 @@ func SetupDatabase() {
 	// Migrate the schema
 	database.AutoMigrate(
 		&Todolist{},
-		&Status{},
 	)
 
 	db = database
-
-	// Status
-	status1 := Status{
-		Name: 	"ยังไม่ดำเนินการ",
-	}
-	db.Model(&Status{}).Create(&status1)
-
-	status2 := Status{
-		Name: 	"ดำเนินการเสร็จสิ้น",
-	}
-	db.Model(&Status{}).Create(&status2)
 
 	// Todolist
 	todolist1 := Todolist{
 		List:		"Task1",
 		Des:		"Lorem",
 		Date:		time.Now(),
-		Status: 	status1,
 	}
 	db.Model(&Todolist{}).Create(&todolist1)
 	

@@ -40,9 +40,8 @@ function TodolistEdit({ Cancle, Data }: Header) {
         List: Data?.List,
         Des: Data?.Des,
         Date: Data?.Date,
-        StatusID: Data?.StatusID,
     });
-    const [status, setStatus] = useState<StatusInterface[]>([]);
+    // const [status, setStatus] = useState<StatusInterface[]>([]);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -70,11 +69,11 @@ function TodolistEdit({ Cancle, Data }: Header) {
         setTodolist({ ...todolist, [id]: value });
     };
 
-    const handleChange = (event: SelectChangeEvent<number>) => {
-        const name = event.target.name as keyof typeof todolist;
-        const { value } = event.target;
-        setTodolist({ ...todolist, [name]: value });
-    };
+    // const handleChange = (event: SelectChangeEvent<number>) => {
+    //     const name = event.target.name as keyof typeof todolist;
+    //     const { value } = event.target;
+    //     setTodolist({ ...todolist, [name]: value });
+    // };
 
     function submit() {
         let data = {
@@ -82,7 +81,6 @@ function TodolistEdit({ Cancle, Data }: Header) {
             List: (todolist.List) ?? "",
             Des: (todolist.Des) ?? "",
             Date: date?.toISOString(),
-            StatusID: Number(todolist.StatusID),
 
         };
         console.log(data);
@@ -112,28 +110,28 @@ function TodolistEdit({ Cancle, Data }: Header) {
                 }
             });
     }
-    const requestOptions = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
-    const GetAllStatus = async () => {
-        const apiUrl = "http://localhost:8080/status";
+    // const requestOptions = {
+    //     method: "GET",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    // };
+    // const GetAllStatus = async () => {
+    //     const apiUrl = "http://localhost:8080/status";
 
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
+    //     fetch(apiUrl, requestOptions)
+    //         .then((response) => response.json())
 
-            .then((res) => {
-                console.log(res.data);
-                if (res.data) {
-                    setStatus(res.data);
-                }
-            });
-    };
-    useEffect(() => {
-        GetAllStatus();
-    },);
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             if (res.data) {
+    //                 setStatus(res.data);
+    //             }
+    //         });
+    // };
+    // useEffect(() => {
+    //     GetAllStatus();
+    // },);
 
     return (
         <Container maxWidth="md"
@@ -233,33 +231,6 @@ function TodolistEdit({ Cancle, Data }: Header) {
                                     }}
                                 />
                             </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="standard">
-                            <p>
-                                Status <span style={{ color: 'red' }}>*</span>
-                            </p>
-                            <Select
-                                native
-                                value={todolist.StatusID}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "StatusID",
-                                }}
-                            >
-                                <option aria-label="None" value=""></option>
-                                {status.map(
-                                    (
-                                        item: StatusInterface
-                                    ) => (
-                                        <option value={item.ID} key={item.ID}>
-                                            {item.Name}
-                                        </option>
-                                    )
-                                )}
-                            </Select>
                         </FormControl>
                     </Grid>
 

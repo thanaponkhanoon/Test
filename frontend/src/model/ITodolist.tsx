@@ -5,6 +5,4 @@ export interface TodolistInterface{
     List:   string,
     Des:    string,
     Date:   Date,
-    StatusID: number,
-    Status: StatusInterface
 }

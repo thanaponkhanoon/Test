@@ -11,10 +11,9 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { useEffect, useState } from "react";
 import { TodolistInterface } from "../model/ITodolist";
-import { StatusInterface } from "../model/IStatus";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -34,7 +33,6 @@ function TodolistCreate() {
     >({});
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
-    const [status, setStatus] = useState<StatusInterface[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleClose = (
@@ -60,20 +58,19 @@ function TodolistCreate() {
         setTodolist({ ...todolist, [id]: value });
     };
 
-    const handleChange = (event: SelectChangeEvent<number>) => {
-        const name = event.target.name as keyof typeof todolist;
-        console.log(event.target.name);
-        console.log(event.target.value);
-        const { value } = event.target;
-        setTodolist({ ...todolist, [name]: value });
-    };
+    // const handleChange = (event: SelectChangeEvent<number>) => {
+    //     const name = event.target.name as keyof typeof todolist;
+    //     console.log(event.target.name);
+    //     console.log(event.target.value);
+    //     const { value } = event.target;
+    //     setTodolist({ ...todolist, [name]: value });
+    // };
 
     function submit() {
         let data = {
             List: (todolist.List) ?? "",
             Des: (todolist.Des) ?? "",
             Date: date?.toISOString(),
-            StatusID: Number(todolist.StatusID),
         };
         console.log(data);
 
@@ -102,25 +99,25 @@ function TodolistCreate() {
                 }
             });
     }
-    const requestOptions = {
-        method: "GET",
-    };
-    const GetAllStatus = async () => {
-        const apiUrl = "http://localhost:8080/status";
+    // const requestOptions = {
+    //     method: "GET",
+    // };
+    // const GetAllStatus = async () => {
+    //     const apiUrl = "http://localhost:8080/status";
 
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
+    //     fetch(apiUrl, requestOptions)
+    //         .then((response) => response.json())
 
-            .then((res) => {
-                console.log(res.data);
-                if (res.data) {
-                    setStatus(res.data);
-                }
-            });
-    };
-    useEffect(() => {
-        GetAllStatus();
-    },);
+    //         .then((res) => {
+    //             console.log(res.data);
+    //             if (res.data) {
+    //                 setStatus(res.data);
+    //             }
+    //         });
+    // };
+    // useEffect(() => {
+    //     GetAllStatus();
+    // },);
 
     return (
         <Container maxWidth="md">
@@ -219,33 +216,6 @@ function TodolistCreate() {
                                     }}
                                 />
                             </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <FormControl fullWidth variant="standard">
-                            <p>
-                                Status <span style={{ color: 'red' }}>*</span>
-                            </p>
-                            <Select
-                                native
-                                value={todolist.StatusID}
-                                onChange={handleChange}
-                                inputProps={{
-                                    name: "StatusID",
-                                }}
-                            >
-                                <option aria-label="None" value=""></option>
-                                {status.map(
-                                    (
-                                        item: StatusInterface
-                                    ) => (
-                                        <option value={item.ID} key={item.ID}>
-                                            {item.Name}
-                                        </option>
-                                    )
-                                )}
-                            </Select>
                         </FormControl>
                     </Grid>
 

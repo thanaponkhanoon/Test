@@ -9,7 +9,6 @@ import (
 )
 
 func CreateTodolist(c *gin.Context){
-	var status		entity.Status
 	var todolist	entity.Todolist
 
 	if err := c.ShouldBindJSON(&todolist); err != nil {
@@ -17,16 +16,11 @@ func CreateTodolist(c *gin.Context){
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", todolist.StatusID).First(&status); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
-		return
-	}
 
 	TL := entity.Todolist{
 		List: 		todolist.List,
 		Des:		todolist.Des,
 		Date:		todolist.Date.Local(),
-		Status: 	status,
 	}
 
 	if _, err := govalidator.ValidateStruct(todolist); err != nil {
@@ -43,7 +37,7 @@ func CreateTodolist(c *gin.Context){
 
 func GetAllTodolist(c *gin.Context){
 	var todolist	[]entity.Todolist
-	if err := entity.DB().Model(&entity.Todolist{}).Preload("Status").Find(&todolist).Error; err != nil {
+	if err := entity.DB().Model(&entity.Todolist{}).Find(&todolist).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -53,7 +47,7 @@ func GetAllTodolist(c *gin.Context){
 func GetTodolistByID(c *gin.Context) {
 	var todolist	[]entity.Todolist
 	Id := c.Param("id")
-	if err := entity.DB().Model(&entity.Todolist{}).Where("ID = ?", Id).Preload("Status").Find(&todolist); err.RowsAffected == 0 {
+	if err := entity.DB().Model(&entity.Todolist{}).Where("ID = ?", Id).Find(&todolist); err.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("TodolistID :  Id%s not found.", Id)})
 		return
 	}
@@ -61,7 +55,6 @@ func GetTodolistByID(c *gin.Context) {
 }
 
 func UpdateTodolist(c *gin.Context){
-	var status		entity.Status
 	var todolist	entity.Todolist
 
 	if err := c.ShouldBindJSON(&todolist); err != nil {
@@ -71,11 +64,6 @@ func UpdateTodolist(c *gin.Context){
 
 	if tx := entity.DB().Where("id = ?", todolist.ID).First(&entity.Todolist{}); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "detail not found"})
-		return
-	}
-
-	if tx := entity.DB().Where("id = ?", todolist.StatusID).First(&status); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
 		return
 	}
 

@@ -11,8 +11,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { SelectChangeEvent } from '@mui/material/Select';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TodolistInterface } from "../model/ITodolist";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";

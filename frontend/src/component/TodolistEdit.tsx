@@ -10,10 +10,8 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TodolistInterface } from "../model/ITodolist";
-import { StatusInterface } from "../model/IStatus";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";

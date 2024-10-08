@@ -4,7 +4,7 @@ This is a simple project created to demonstrate how to manage a repository and a
 
 ## Features
 
-- **React.js**: Built using React.js for the front-end.
+- **React.ts**: Built using React.ts for the front-end.
 - **Material-UI**: For responsive components.
 - **React-Router-Dom**: For handling routes.
 

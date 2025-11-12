@@ -17,10 +17,12 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { NavLink } from 'react-router-dom';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
 const menu = [
     { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
     { name: "To-Do List", icon: <InventoryIcon />, path: "/todolist" },
+    { name: "Show Race", icon: <RocketLaunchIcon />, path: "/showrace" },
 ];
 
 function Appbar() {

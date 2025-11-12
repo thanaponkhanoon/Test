@@ -39,6 +39,7 @@ function TodolistEdit({ Cancle, Data }: Header) {
         Des: Data?.Des,
         Date: Data?.Date,
     });
+    console.log('todolist', todolist)
     // const [status, setStatus] = useState<StatusInterface[]>([]);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);

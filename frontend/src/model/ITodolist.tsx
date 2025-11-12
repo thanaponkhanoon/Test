@@ -3,4 +3,5 @@ export interface TodolistInterface{
     List:   string,
     Des:    string,
     Date:   Date,
+    Status: string; 
 }

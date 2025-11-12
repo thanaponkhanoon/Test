@@ -5,6 +5,7 @@ import Home from "./component/Home";
 import AppBar from "./component/Appbar";
 import Todolist from "./component/Todolist";
 import TodolistCreate from "./component/Todolistcreate";
+import ShowRace from "./component/ShowRace";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/todolist" element={<Todolist />} />
           <Route path="/todolistcreate" element={<TodolistCreate />} />
+          <Route path="/showrace" element={<ShowRace />} />
         </Routes>
 
       </div>

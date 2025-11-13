@@ -6,6 +6,8 @@ import AppBar from "./component/Appbar";
 import Todolist from "./component/Todolist";
 import TodolistCreate from "./component/Todolistcreate";
 import ShowRace from "./component/ShowRace";
+import Loop from "./component/Loop";
+import ExampleLoop from "./component/ExampleLoop";
 
 export default function App() {
   return (
@@ -34,6 +36,8 @@ export default function App() {
           <Route path="/todolist" element={<Todolist />} />
           <Route path="/todolistcreate" element={<TodolistCreate />} />
           <Route path="/showrace" element={<ShowRace />} />
+          <Route path="/loop" element={<Loop />} />
+          <Route path="/exampleloop" element={<ExampleLoop />} />
         </Routes>
 
       </div>

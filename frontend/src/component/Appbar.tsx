@@ -18,11 +18,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { NavLink } from 'react-router-dom';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import CodeIcon from '@mui/icons-material/Code';
 
 const menu = [
     { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
     { name: "To-Do List", icon: <InventoryIcon />, path: "/todolist" },
+    { name: "Loop", icon: <AllInclusiveIcon />, path: "/loop" },
     { name: "Show Race", icon: <RocketLaunchIcon />, path: "/showrace" },
+    { name: "Example Loop", icon: <CodeIcon />, path: "/exampleloop" },
 ];
 
 function Appbar() {
